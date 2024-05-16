@@ -31,8 +31,18 @@ def eval_metrics(actual, pred):
     r2 = r2_score(actual, pred)
     return rmse, mae, r2
 
+# def get_or_create_spark_session():
+#     if 'spark' not in globals():
+#         global spark
+#         spark = SparkSession.builder \
+#             .appName("Example") \
+#             .config("spark.some.config.option", "config-value") \
+#             .getOrCreate()
+#     return spark
+
+
 def check_spark_context():
-    spark = SparkSession.builder.appName("Example").getOrCreate()
+    # spark = get_or_create_spark_session()
     data = [("John", 25, "New York"),
             ("Alice", 30, "London"),
             ("Bob", 35, "Paris")]
@@ -74,8 +84,8 @@ if __name__ == "__main__":
     train_y = train[["quality"]]
     test_y = test[["quality"]]
 
-    alpha = float(sys.argv[1]) if len(sys.argv) > 1 else 0.5
-    l1_ratio = float(sys.argv[2]) if len(sys.argv) > 2 else 0.5
+    alpha = float(sys.argv[1]) if len(sys.argv) > 1 and sys.argv[1].replace('.', '', 1).isdigit() else 0.5
+    l1_ratio = float(sys.argv[2]) if len(sys.argv) > 2 and sys.argv[2].replace('.', '', 1).isdigit() else 0.5
 
     with mlflow.start_run():
         lr = ElasticNet(alpha=alpha, l1_ratio=l1_ratio, random_state=42)
