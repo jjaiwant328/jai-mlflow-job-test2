@@ -31,18 +31,18 @@ def eval_metrics(actual, pred):
     r2 = r2_score(actual, pred)
     return rmse, mae, r2
 
-# def get_or_create_spark_session():
-#     if 'spark' not in globals():
-#         global spark
-#         spark = SparkSession.builder \
-#             .appName("Example") \
-#             .config("spark.some.config.option", "config-value") \
-#             .getOrCreate()
-#     return spark
+def get_or_create_spark_session():
+    if 'spark' not in globals():
+        global spark
+        spark = SparkSession.builder \
+            .appName("Example") \
+            .config("spark.some.config.option", "config-value") \
+            .getOrCreate()
+    return spark
 
 
 def check_spark_context():
-    # spark = get_or_create_spark_session()
+    spark = get_or_create_spark_session()
     data = [("John", 25, "New York"),
             ("Alice", 30, "London"),
             ("Bob", 35, "Paris")]
