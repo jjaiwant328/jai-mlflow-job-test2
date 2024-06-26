@@ -1,10 +1,13 @@
 name: tutorial
 
-python_env: python_env.yaml
+name: tutorial
 
-entry_points:
-  main:
-    parameters:
-      alpha: {type: float, default: 0.5}
-      l1_ratio: {type: float, default: 0.1}
-    command: "python train.py"
+databricks_spark_job:
+    python_file: "train.py"  # the file to be executed as the pyspark driver process
+    parameters: []  # parameters, only allow a list of string
+    python_libraries: # dependencies to be installed as databricks cluster libraries
+      - mlflow==2.4.1
+      - scikit-learn
+      - pandas
+      - dynaconf
+      - numpy
