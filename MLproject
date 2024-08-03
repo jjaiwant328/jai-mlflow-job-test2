@@ -3,11 +3,20 @@ name: tutorial
 name: tutorial
 
 databricks_spark_job:
-    python_file: "train.py"  # the file to be executed as the pyspark driver process
-    parameters: []  # parameters, only allow a list of string
     python_libraries: # dependencies to be installed as databricks cluster libraries
       - mlflow==2.4.1
       - scikit-learn
       - pandas
       - dynaconf
       - numpy
+
+entry_points:
+  main:
+    parameters:
+      model_name: {type: string, default: model}
+      build_id: {type: string, default: local}
+      timestamp: {type: string, default: local}
+      environment: {type: string, default: local}
+      config: {type: string, default: 'local'}
+      script_name: {type: string, default: train.py}
+    command: "python {script_name} {model_name} {build_id} {timestamp} {environment} {config}"
