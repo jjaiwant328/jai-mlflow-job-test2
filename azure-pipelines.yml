@@ -30,7 +30,7 @@ steps:
   displayName: 'Run MLflow job test'
 
 
-- script: Run mlflow
+- script: |
     export MLFLOW_TRACKING_URI=databricks
     mlflow run https://github.com/jjaiwant328/jai-mlflow-job-test2  -b databricks --backend-config cluster-spec.json -P script_name=train.py -P model_name=sklearn --experiment-id 4480679818023526
   env:
