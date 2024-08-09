@@ -1,35 +1,39 @@
 # mlFlow Registry QA & Prod pipeline 
-
 trigger:
-- main
-
+- master
 
 pool:
-  vmImage: ubuntu-latest
-strategy:
-  matrix:
-    Python310:
-      python.version: '3.10'
-    
+  vmImage: 'ubuntu-latest'
 
 steps:
-- task: UsePythonVersion@0
-  inputs:
-    versionSpec: '$(python.version)'
-    displayName: 'Use Python $(python.version)'
+- checkout: self
+  persistCredentials: true
+  clean: true
+  displayName: 'Credentials'
 
 - script: |
-    pip install -U databricks-cli
-    displayName: 'Installing databricks CLI'
+    pip install databricks-cli
+    ~/.local/bin/databricks -h
+  displayName: 'Install Databricks CLI'
 
+- script: |
+    pip install https://github.com/WeichenXu123/packages/raw/85911efdfca4a873314cefb44471cee9cb84e56b/mlflow/mlflow-job/mlflow-2.15.1.dev0-py3-none-any.whl
+    ~/.local/bin/mlflow --version
+  displayName: 'Install mlflow'
 
-- script: git checkout master
-    pip install git+https://github.com/mlflow/mlflow.git@refs/pull/12854/merge 
-    displayName: 'Get Latest Branch'
+- script: |
+    export MLFLOW_TRACKING_URI=databricks
+    mlflow run https://github.com/jjaiwant328/mlflow-arg  -b databricks --backend-config cluster-spec.json --experiment-id 1653021744903094
+  env:
+    DATABRICKS_HOST: $(DATABRICKS_HOST)
+    DATABRICKS_TOKEN: $(DATABRICKS_TOKEN)
+  displayName: 'Run MLflow job test'
 
 
 - script: Run mlflow
+    export MLFLOW_TRACKING_URI=databricks
     mlflow run https://github.com/jjaiwant328/jai-mlflow-job-test2  -b databricks --backend-config cluster-spec.json -P script_name=train.py -P model_name=sklearn --experiment-id 4480679818023526
-    displayName: 'Run MLflow job'
- 
-
+  env:
+    DATABRICKS_HOST: $(DATABRICKS_HOST)
+    DATABRICKS_TOKEN: $(DATABRICKS_TOKEN)
+    displayName: 'Run MLflow job test2'
