@@ -22,16 +22,13 @@ steps:
     pip install -U databricks-cli
     displayName: 'Installing databricks CLI'
 
-- checkout: self
-  persistCredentials: true
-  clean: true
 
 - script: git checkout master
     pip install git+https://github.com/mlflow/mlflow.git@refs/pull/12854/merge 
     displayName: 'Get Latest Branch'
 
 
-- script: |
+- script: Run mlflow
     mlflow run https://github.com/jjaiwant328/jai-mlflow-job-test2  -b databricks --backend-config cluster-spec.json -P script_name=train.py -P model_name=sklearn --experiment-id 4480679818023526
     displayName: 'Run MLflow job'
  
