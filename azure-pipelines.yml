@@ -23,7 +23,7 @@ steps:
 
 - script: |
     export MLFLOW_TRACKING_URI=databricks
-    mlflow run https://github.com/jjaiwant328/mlflow-arg  -b databricks --backend-config cluster-spec.json --experiment-id 1653021744903094
+    mlflow run https://github.com/jjaiwant328/mlflow-arg  -b databricks --backend-config cluster-spec.json
   env:
     DATABRICKS_HOST: $(DATABRICKS_HOST)
     DATABRICKS_TOKEN: $(DATABRICKS_TOKEN)
