@@ -23,7 +23,7 @@ steps:
 
 - script: |
     export MLFLOW_TRACKING_URI=databricks
-    mlflow.set_experiment("mlflow-arg")
+    mlflow.set_experiment('mlflow-arg')
     mlflow run https://github.com/jjaiwant328/mlflow-arg  -b databricks --backend-config cluster-spec.json
   env:
     DATABRICKS_HOST: $(DATABRICKS_HOST)
