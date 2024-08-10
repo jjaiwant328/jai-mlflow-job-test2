@@ -1,4 +1,4 @@
-# mlFlow Registry QA & Prod pipeline 
+# mlFlow basic test 
 trigger:
 - master
 
