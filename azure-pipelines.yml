@@ -21,14 +21,6 @@ steps:
     ~/.local/bin/mlflow --version
   displayName: 'Install mlflow'
 
-- script: |
-    export MLFLOW_TRACKING_URI=databricks
-    mlflow experiment create 'mlflow-arg'
-    mlflow run https://github.com/jjaiwant328/mlflow-arg  -b databricks --backend-config cluster-spec.json --experiment mlflo-arg
-  env:
-    DATABRICKS_HOST: $(DATABRICKS_HOST)
-    DATABRICKS_TOKEN: $(DATABRICKS_TOKEN)
-  displayName: 'Run MLflow job test'
 
 
 - script: |
